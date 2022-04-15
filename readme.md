@@ -1,7 +1,5 @@
 ## Chat real time with nestjs and vuejs
 
-#
-
 ## Installation API
 
 ```bash
