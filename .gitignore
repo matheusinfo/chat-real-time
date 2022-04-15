@@ -1,0 +1,6 @@
+/api/.vscode
+/api/node_modules
+/api/dist
+
+/web/.vscode
+/web/dist
