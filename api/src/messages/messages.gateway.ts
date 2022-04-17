@@ -54,4 +54,12 @@ export class MessagesGateway {
 
     client.broadcast.emit('typing', { name: clientName, isTyping });
   }
+
+  @SubscribeMessage('deleteMessage')
+  deleteMessage(
+    @MessageBody('id') id: string,
+    @ConnectedSocket() client: Socket,
+  ) {
+    return this.messagesService.deleteMessage(id, client.id);
+  }
 }

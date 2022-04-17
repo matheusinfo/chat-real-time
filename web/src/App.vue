@@ -54,6 +54,12 @@ const emitTyping = () => {
   }, 3000)
 }
 
+const deleteMessage = (messageId) => {
+  socket.emit('deleteMessage', { id: messageId }, (response) => {
+    messages.value = response
+  })
+}
+
 </script>
 
 <template>
@@ -71,7 +77,8 @@ const emitTyping = () => {
     <div class="chat-container" v-else>
       <div class="messages-container">
         <div v-for="message in messages">
-          {{ message.name }}: {{ message.text }} [{{ message.date }}]
+          {{ message.client_name }}: {{ message.text }} [{{ message.date }}]
+          <button v-on:click="deleteMessage(message.id)">delete</button>
         </div>
       </div>
 
@@ -142,11 +149,18 @@ const emitTyping = () => {
   }
 
   .chat-container .messages-container div {
- 
     word-wrap: break-word;
     padding: 2px;
     color: #323232;
     background: whitesmoke;
+  }
+
+  .chat-container .messages-container div button {
+    color: #666;
+    font-size: 10px;
+    background: whitesmoke;
+    cursor: pointer;
+    border: none;
   }
 
   .chat-container .message-input form{

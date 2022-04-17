@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { v4 as uuid } from 'uuid';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { Message } from './entities/message.entity';
 
@@ -11,7 +12,9 @@ export class MessagesService {
     const date = new Date();
 
     const message = {
-      name: this.clientToUser[clientId],
+      id: uuid(),
+      client_name: this.clientToUser[clientId],
+      client_id: clientId,
       text: createMessageDto.text,
       date: `
         ${String(date.getHours()).padStart(2, '0')}:
@@ -34,5 +37,15 @@ export class MessagesService {
 
   getClientName(clientId: string) {
     return this.clientToUser[clientId];
+  }
+
+  deleteMessage(id: string, clientId: string) {
+    const message = this.messages.find((message) => message.id === id);
+
+    if (message.client_id === clientId) {
+      this.messages = this.messages.filter((message) => message.id !== id);
+    }
+
+    return this.messages;
   }
 }
